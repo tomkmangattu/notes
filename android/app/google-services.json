@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "968016827903",
+    "firebase_url": "https://ktu-help-7644b.firebaseio.com",
+    "project_id": "ktu-help-7644b",
+    "storage_bucket": "ktu-help-7644b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968016827903:android:293f0829d993bdab3483ca",
+        "android_client_info": {
+          "package_name": "com.ktuhelp.ktuhelp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968016827903-bdfb07nmkqqhsau02b70itbl3357k40t.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ktuhelp.ktuhelp",
+            "certificate_hash": "aefea714302adfb8e651a7d4018864f3547b3ce8"
+          }
+        },
+        {
+          "client_id": "968016827903-jiui1oqov4prl4dqadch084nb3vrbn4e.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBTikf5tC3WRJ3veoJD361AfSg0RjXX9Y"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968016827903-jiui1oqov4prl4dqadch084nb3vrbn4e.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
