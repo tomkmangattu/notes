@@ -32,7 +32,7 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   String dropdownValue = "CSE";
   String dropdownValue1 = "S1";
-  String dropdownValue2 = "2019";
+  String dropdownValue2 = "2015";
   List<String> semester = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8"];
   List<DropdownMenuItem<int>> semdrop = [];
   int semsel;
@@ -95,6 +95,18 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
   //     },
   //   );
   // }
+  bool checksem = false;
+  onChangeSemester() {
+    if (dropdownValue1 == "S1" || dropdownValue1 == "S2") {
+      setState(() {
+        checksem = false;
+      });
+    } else {
+      setState(() {
+        checksem = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -155,7 +167,7 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
                       mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Text(
-                          "Branch",
+                          "Scheme",
                           style: TextStyle(color: Colors.white54, fontSize: 22),
                         ),
                         // Container(
@@ -180,7 +192,7 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
                             child: DropdownButtonHideUnderline(
                                 child: new DropdownButton<String>(
                               dropdownColor: Colors.white,
-                              value: dropdownValue,
+                              value: dropdownValue2,
                               icon: Icon(
                                 Icons.arrow_drop_down,
                                 color: Colors.black54,
@@ -198,16 +210,12 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
                               ),
                               onChanged: (String newValue) {
                                 setState(() {
-                                  dropdownValue = newValue;
+                                  dropdownValue2 = newValue;
                                 });
                               },
                               items: <String>[
-                                "CSE",
-                                "CE",
-                                "EC",
-                                "EE",
-                                "ME",
-                                "IT"
+                                "2015",
+                                "2019"
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -265,6 +273,7 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
                               onChanged: (String newValue) {
                                 setState(() {
                                   dropdownValue1 = newValue;
+                                  onChangeSemester();
                                 });
                               },
                               items: <String>[
@@ -285,68 +294,76 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
                             )))
                       ],
                     ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceAround,
-                      children: <Widget>[
-                        Text(
-                          "Scheme",
-                          style: TextStyle(color: Colors.white54, fontSize: 22),
-                        ),
-                        // Container(
-                        //     // color: Colors.white54,
-                        //     // margin:
-                        //     //     EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-                        //     decoration: ShapeDecoration(
-                        //       shape: RoundedRectangleBorder(
-                        //         borderRadius:
-                        //             BorderRadius.all(Radius.circular(22.0)),
-                        //       ),
-                        //     ),
-                        Container(
-                            padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
-                            decoration: ShapeDecoration(
-                              color: Colors.white,
-                              shape: RoundedRectangleBorder(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(25)),
+                    checksem == true
+                        ? Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: <Widget>[
+                              Text(
+                                "Branch",
+                                style: TextStyle(
+                                    color: Colors.white54, fontSize: 22),
                               ),
-                            ),
-                            child: DropdownButtonHideUnderline(
-                                child: new DropdownButton<String>(
-                              dropdownColor: Colors.white,
-                              value: dropdownValue2,
-                              icon: Icon(
-                                Icons.arrow_drop_down,
-                                color: Colors.black54,
-                                size: 30,
-                              ),
-                              iconSize: 24,
-                              elevation: 16,
-                              style: new TextStyle(
-                                color: Colors.black54,
-                                fontSize: 20,
-                              ),
-                              underline: Container(
-                                height: 2,
-                                color: Colors.deepPurpleAccent,
-                              ),
-                              onChanged: (String newValue) {
-                                setState(() {
-                                  dropdownValue2 = newValue;
-                                });
-                              },
-                              items: <String>[
-                                "2019",
-                                "2020"
-                              ].map<DropdownMenuItem<String>>((String value) {
-                                return DropdownMenuItem<String>(
-                                  value: value,
-                                  child: Text(value),
-                                );
-                              }).toList(),
-                            )))
-                      ],
-                    )
+                              // Container(
+                              //     // color: Colors.white54,
+                              //     // margin:
+                              //     //     EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
+                              //     decoration: ShapeDecoration(
+                              //       shape: RoundedRectangleBorder(
+                              //         borderRadius:
+                              //             BorderRadius.all(Radius.circular(22.0)),
+                              //       ),
+                              //     ),
+                              Container(
+                                  padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
+                                  decoration: ShapeDecoration(
+                                    color: Colors.white,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(25)),
+                                    ),
+                                  ),
+                                  child: DropdownButtonHideUnderline(
+                                      child: new DropdownButton<String>(
+                                    dropdownColor: Colors.white,
+                                    value: dropdownValue,
+                                    icon: Icon(
+                                      Icons.arrow_drop_down,
+                                      color: Colors.black54,
+                                      size: 30,
+                                    ),
+                                    iconSize: 24,
+                                    elevation: 16,
+                                    style: new TextStyle(
+                                      color: Colors.black54,
+                                      fontSize: 20,
+                                    ),
+                                    underline: Container(
+                                      height: 2,
+                                      color: Colors.deepPurpleAccent,
+                                    ),
+                                    onChanged: (String newValue) {
+                                      setState(() {
+                                        dropdownValue = newValue;
+                                      });
+                                    },
+                                    items: <String>[
+                                      "CSE",
+                                      "CE",
+                                      "EC",
+                                      "EE",
+                                      "ME",
+                                      "IT"
+                                    ].map<DropdownMenuItem<String>>(
+                                        (String value) {
+                                      return DropdownMenuItem<String>(
+                                        value: value,
+                                        child: Text(value),
+                                      );
+                                    }).toList(),
+                                  )))
+                            ],
+                          )
+                        : Container()
                   ],
                 ),
               ),
@@ -384,17 +401,29 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
     );
   }
 
+  // proceed(String branch, String sem, String scheme) {
+  //   if (_formKey.currentState.validate()) {
+  //     _formKey.currentState.save();
+  //     print("$dropdownValue$dropdownValue1$dropdownValue2");
+  //     Navigator.push(
+  //         context,
+  //         MaterialPageRoute(
+  //             builder: (context) => VideoSubject(
+  //                   sem: sem,
+  //                   branch: branch,
+  //                 )));
+  //   }
+  // }
   proceed(String branch, String sem, String scheme) {
     if (_formKey.currentState.validate()) {
       _formKey.currentState.save();
       print("$dropdownValue$dropdownValue1$dropdownValue2");
+
       Navigator.push(
           context,
           MaterialPageRoute(
-              builder: (context) => VideoSubject(
-                    sem: sem,
-                    branch: branch,
-                  )));
+              builder: (context) =>
+                  VideoSubject(sem: sem, branch: branch, scheme: scheme)));
     }
   }
 }
@@ -402,7 +431,8 @@ class _VideoLectureProceedState extends State<VideoLectureProceed> {
 class VideoSubject extends StatefulWidget {
   final String sem;
   final String branch;
-  VideoSubject({this.sem, this.branch});
+  final String scheme;
+  VideoSubject({this.sem, this.branch, this.scheme});
   @override
   _VideoSubjectState createState() => _VideoSubjectState();
 }
@@ -460,12 +490,25 @@ class _VideoSubjectState extends State<VideoSubject> {
     setState(() {
       loading = true;
     });
-    QuerySnapshot querySnapshot = await videoref
-        .document(widget.sem)
-        .collection(widget.sem)
-        .document(widget.branch)
-        .collection(widget.branch)
-        .getDocuments();
+    QuerySnapshot querySnapshot;
+    if (widget.sem == "S1" || widget.sem == "S2") {
+      querySnapshot = await videoref
+          .document(widget.scheme)
+          .collection(widget.scheme)
+          .document(widget.sem)
+          .collection(widget.sem)
+          .getDocuments();
+      print("hello");
+    } else {
+      querySnapshot = await videoref
+          .document(widget.scheme)
+          .collection(widget.scheme)
+          .document(widget.sem)
+          .collection(widget.sem)
+          .document(widget.branch)
+          .collection(widget.branch)
+          .getDocuments();
+    }
     setState(() {
       loading = false;
 
@@ -505,6 +548,7 @@ class _VideoSubjectState extends State<VideoSubject> {
       videoList.forEach((eachPost) {
         gridTilesList.add(GridTile(
             child: IconLeft(
+          scheme: widget.scheme,
           sem: widget.sem,
           branch: widget.branch,
           subject: eachPost,
@@ -536,14 +580,11 @@ class _VideoSubjectState extends State<VideoSubject> {
 }
 
 class IconLeft extends StatefulWidget {
+  String scheme;
   String sem;
   String branch;
   final VideoSem subject;
-  IconLeft({
-    this.sem,
-    this.branch,
-    this.subject,
-  });
+  IconLeft({this.sem, this.branch, this.subject, this.scheme});
 
   @override
   _IconState createState() => _IconState();
@@ -559,6 +600,7 @@ class _IconState extends State<IconLeft> {
           context,
           MaterialPageRoute(
               builder: (context) => VideoModule(
+                    scheme: widget.scheme,
                     sem: widget.sem,
                     branch: widget.branch,
                     subject: widget.subject.val,
@@ -603,11 +645,12 @@ class _IconState extends State<IconLeft> {
 }
 
 class VideoModule extends StatefulWidget {
+  final String scheme;
   final String sem;
   final String branch;
   final String subject;
   final String modnum;
-  VideoModule({this.sem, this.branch, this.subject, this.modnum});
+  VideoModule({this.sem, this.branch, this.subject, this.modnum, this.scheme});
   @override
   _VideoModuleState createState() => _VideoModuleState();
 }
@@ -817,16 +860,32 @@ class _VideoModuleState extends State<VideoModule> {
     setState(() {
       loading = true;
     });
-    QuerySnapshot querySnapshot = await videoref
-        .document(widget.sem)
-        .collection(widget.sem)
-        .document(widget.branch)
-        .collection(widget.branch)
-        .document(widget.subject)
-        .collection(widget.subject)
-        .document(modulenumber)
-        .collection(modulenumber)
-        .getDocuments();
+    QuerySnapshot querySnapshot;
+    if (widget.sem == "S1" || widget.sem == "S2") {
+      querySnapshot = await videoref
+          .document(widget.scheme)
+          .collection(widget.scheme)
+          .document(widget.sem)
+          .collection(widget.sem)
+          .document(widget.subject)
+          .collection(widget.subject)
+          .document(modulenumber)
+          .collection(modulenumber)
+          .getDocuments();
+    } else {
+      querySnapshot = await videoref
+          .document(widget.scheme)
+          .collection(widget.scheme)
+          .document(widget.sem)
+          .collection(widget.sem)
+          .document(widget.branch)
+          .collection(widget.branch)
+          .document(widget.subject)
+          .collection(widget.subject)
+          .document(modulenumber)
+          .collection(modulenumber)
+          .getDocuments();
+    }
     setState(() {
       loading = false;
 
