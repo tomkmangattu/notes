@@ -11,6 +11,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
 import 'package:flutter_full_pdf_viewer/full_pdf_viewer_scaffold.dart';
 import 'package:flutter_webview_plugin/flutter_webview_plugin.dart';
+import 'package:ktuhelp/notes_download.dart';
 import 'circularprogress1.dart';
 import 'notesfirebase.dart';
 import 'pdfview.dart';
@@ -20,6 +21,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:uuid/uuid.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
+import 'notes_upload.dart';
 
 import 'custom_slider_thumb_circle.dart';
 
@@ -418,11 +420,15 @@ class _NoteLectureProceedState extends State<NoteLectureProceed> {
                   child: Center(
                     child: GestureDetector(
                       onTap: () {
-                        getFormUrl();
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => NotesUpload()));
+                        // getFormUrl();
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => UploadSelectSub(
+                                      scheme: dropdownValue2,
+                                      sem: dropdownValue1,
+                                      branch: dropdownValue,
+                                    )));
                       },
                       child: Container(
                         height: 55.0,
@@ -694,16 +700,27 @@ class _IconState extends State<IconLeft> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => Navigator.push(
-          context,
-          MaterialPageRoute(
-              builder: (context) => NoteModule(
-                    scheme: widget.scheme,
-                    sem: widget.sem,
-                    branch: widget.branch,
-                    subject: widget.subject.val,
-                    modnum: widget.subject.max,
-                  ))),
+      onTap: () {
+        Navigator.push(
+            context,
+            MaterialPageRoute(
+                builder: (context) => NoteDownload(
+                      scheme: widget.scheme,
+                      branch: widget.branch,
+                      sem: widget.sem,
+                      sub: widget.subject.val,
+                    ))
+            // MaterialPageRoute(
+            //     builder: (context) => NoteModule(
+            //           scheme: widget.scheme,
+            //           sem: widget.sem,
+            //           branch: widget.branch,
+            //           subject: widget.subject.val,
+            //           modnum: widget.subject.max,
+            //         )),
+            );
+        print(widget.scheme);
+      },
       child: Container(
         decoration: BoxDecoration(
           color: Color.fromARGB(255, 44, 42, 43),

@@ -23,8 +23,10 @@ class _MyAppState extends State<MyApp> {
   File sample;
   void pick() async {
     var file = await FilePicker.getFile();
+    // FilePickerResult file = await FilePicker.platform.pickFiles();
     setState(() {
       sample = file;
+      // sample = File(file.files.single.path);
     });
     print("jjj");
   }
