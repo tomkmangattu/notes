@@ -110,12 +110,21 @@ class _UploadSelectSubState extends State<UploadSelectSub> {
   Future _getsubjects() async {
     QuerySnapshot data;
     if (widget.sem == "S1" || widget.sem == "S2") {
-      data = await noteref
-          .document(widget.scheme)
-          .collection(widget.scheme)
-          .document(widget.sem)
-          .collection(widget.sem)
-          .getDocuments();
+      if (widget.scheme == '2019') {
+        data = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document('S1&S2')
+            .collection('S1&S2')
+            .getDocuments();
+      } else {
+        data = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document(widget.sem)
+            .collection(widget.sem)
+            .getDocuments();
+      }
     } else {
       data = await noteref
           .document(widget.scheme)
@@ -512,14 +521,25 @@ class _UploadNotesScreenState extends State<UploadNotesScreen> {
   Future _getModules() async {
     QuerySnapshot data;
     if (widget.sem == "S1" || widget.sem == "S2") {
-      data = await noteref
-          .document(widget.scheme)
-          .collection(widget.scheme)
-          .document(widget.sem)
-          .collection(widget.sem)
-          .document(widget.sub)
-          .collection(widget.sub)
-          .getDocuments();
+      if (widget.scheme == '2019') {
+        data = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document('S1&S2')
+            .collection('S1&S2')
+            .document(widget.sub)
+            .collection(widget.sub)
+            .getDocuments();
+      } else {
+        data = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document(widget.sem)
+            .collection(widget.sem)
+            .document(widget.sub)
+            .collection(widget.sub)
+            .getDocuments();
+      }
     } else {
       data = await noteref
           .document(widget.scheme)

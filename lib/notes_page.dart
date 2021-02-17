@@ -590,12 +590,21 @@ class _NoteSubjectState extends State<NoteSubject> {
     });
     QuerySnapshot querySnapshot;
     if (widget.sem == "S1" || widget.sem == "S2") {
-      querySnapshot = await noteref
-          .document(widget.scheme)
-          .collection(widget.scheme)
-          .document(widget.sem)
-          .collection(widget.sem)
-          .getDocuments();
+      if (widget.scheme == '2019') {
+        querySnapshot = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document('S1&S2')
+            .collection('S1&S2')
+            .getDocuments();
+      } else {
+        querySnapshot = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document(widget.sem)
+            .collection(widget.sem)
+            .getDocuments();
+      }
       print("hello");
     } else {
       querySnapshot = await noteref

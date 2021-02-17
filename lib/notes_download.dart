@@ -31,8 +31,8 @@ class _NoteDownloadState extends State<NoteDownload> {
   String moduleName = 'mod1';
   List<Widget> notes = [];
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  int _recived = 1;
-  int _total = 1;
+  int _recived = 0;
+  int _total = 0;
 
   @override
   void initState() {
@@ -208,14 +208,25 @@ class _NoteDownloadState extends State<NoteDownload> {
     _modules = [];
     print('called...');
     if (widget.sem == "S1" || widget.sem == "S2") {
-      data = await noteref
-          .document(widget.scheme)
-          .collection(widget.scheme)
-          .document(widget.sem)
-          .collection(widget.sem)
-          .document(widget.sub)
-          .collection(widget.sub)
-          .getDocuments();
+      if (widget.scheme == '2019') {
+        data = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document('S1&S2')
+            .collection('S1&S2')
+            .document(widget.sub)
+            .collection(widget.sub)
+            .getDocuments();
+      } else {
+        data = await noteref
+            .document(widget.scheme)
+            .collection(widget.scheme)
+            .document(widget.sem)
+            .collection(widget.sem)
+            .document(widget.sub)
+            .collection(widget.sub)
+            .getDocuments();
+      }
     } else {
       data = await noteref
           .document(widget.scheme)
@@ -366,52 +377,97 @@ class _NoteDownloadState extends State<NoteDownload> {
     setState(() {
       _downloadingNotes = true;
     });
-    Dio dio = Dio();
-    // final externaldir = await getExternalStorageDirectory();
-    http.Response resp;
+    BaseOptions options = new BaseOptions(
+      baseUrl: url,
+      connectTimeout: 5000,
+      // receiveTimeout: 3000,
+    );
+    Dio dio = Dio(options);
+    Response response;
     try {
-      resp = await http.get(url).timeout(const Duration(seconds: 5));
-    } catch (e) {
-      print(e);
-      setState(() {
-        _downloadingNotes = false;
-      });
-    }
-    if (resp.statusCode == 200) {
-      print('Download url is valid');
-      Response response = await dio.download(url, "${externaldir.path}/$name",
+      response = await dio.download(url, "${externaldir.path}/$name",
           onReceiveProgress: (rec, total) {
-        // print(rec.toString() + ' ' + total.toString());
         setState(() {
           _recived = rec;
           _total = total;
         });
       });
-      if (response.statusCode == 200) {
-        print(externaldir.path);
-        setState(() {
-          _downloadingNotes = false;
-        });
-        _recived = 1;
-        _total = 1;
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(
-        //     builder: (context) => PdfScreen(
-        //       pdfPath: '${externaldir.path}/$name',
-        //     ),
-        //   ),
-        // );
-        _openPdfFormLocalStorage("${externaldir.path}/$name", name);
-      }
-    } else {
+    } catch (e) {
+      _downloadFailed();
+    }
+    if (response.statusCode == 200) {
+      debugPrint(externaldir.path);
       setState(() {
         _downloadingNotes = false;
       });
-      print(resp.statusCode);
-      showInSnackBar('Sorry cannot download status code: ${resp.statusCode}');
+      _recived = 0;
+      _total = 0;
+      showInSnackBar('File saved to ${externaldir.path}');
+      _openPdfFormLocalStorage("${externaldir.path}/$name", name);
+    } else {
+      _downloadFailed();
     }
   }
+
+  void _downloadFailed() {
+    setState(() {
+      _downloadingNotes = false;
+    });
+    _recived = 0;
+    _total = 0;
+    showInSnackBar('Sorry cannot download file');
+  }
+
+  // void _downloadPdf(String url, String name, io.Directory externaldir) async {
+  //   setState(() {
+  //     _downloadingNotes = true;
+  //   });
+  //   Dio dio = Dio();
+  //   // final externaldir = await getExternalStorageDirectory();
+  //   // http.Response resp;
+  //   // try {
+  //   //   resp = await http.get(url).timeout(const Duration(seconds: 5));
+  //   // } catch (e) {
+  //   //   print(e);
+  //   //   setState(() {
+  //   //     _downloadingNotes = false;
+  //   //   });
+  //   // }
+  //   // if (resp.statusCode == 200) {
+  //     print('Download url is valid');
+  //     Response response = await dio.download(url, "${externaldir.path}/$name",
+  //         onReceiveProgress: (rec, total) {
+  //       // print(rec.toString() + ' ' + total.toString());
+  //       setState(() {
+  //         _recived = rec;
+  //         _total = total;
+  //       });
+  //     });
+  //     if (response.statusCode == 200) {
+  //       print(externaldir.path);
+  //       setState(() {
+  //         _downloadingNotes = false;
+  //       });
+  //       _recived = 0;
+  //       _total = 0;
+  //       // Navigator.push(
+  //       //   context,
+  //       //   MaterialPageRoute(
+  //       //     builder: (context) => PdfScreen(
+  //       //       pdfPath: '${externaldir.path}/$name',
+  //       //     ),
+  //       //   ),
+  //       // );
+  //       _openPdfFormLocalStorage("${externaldir.path}/$name", name);
+  //     }
+  //   } else {
+  //     setState(() {
+  //       _downloadingNotes = false;
+  //     });
+  //     print(resp.statusCode);
+  //     showInSnackBar('Sorry cannot download status code: ${resp.statusCode}');
+  //   }
+  // }
 
   void showInSnackBar(String message) {
     _scaffoldKey.currentState.showSnackBar(SnackBar(
