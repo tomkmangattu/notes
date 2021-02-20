@@ -431,8 +431,10 @@ class _UploadNotesScreenState extends State<UploadNotesScreen> {
   }
 
   Future<void> _uploadPdf() async {
+    String day = _getCurrentDate();
+
     String identifier =
-        '${widget.scheme + widget.branch + widget.sem + widget.sub + _modules[((_modules.length - 1) * _value).toInt()] + ' ' + _fileName}';
+        '${widget.scheme + widget.branch + widget.sem + widget.sub + _modules[((_modules.length - 1) * _value).toInt()] + day + ' ' + _fileName}';
     setState(() {
       _uploading = true;
     });
@@ -559,7 +561,7 @@ class _UploadNotesScreenState extends State<UploadNotesScreen> {
       for (DocumentSnapshot data in data.documents) {
         _modules.add(data.data['val'].toString());
       }
-      print(_modules.toString() + _modules.length.toString());
+      debugPrint(_modules.toString() + _modules.length.toString());
     } else {
       setState(() {
         _loading = false;
@@ -567,4 +569,30 @@ class _UploadNotesScreenState extends State<UploadNotesScreen> {
       });
     }
   }
+}
+
+String _getCurrentDate() {
+  DateTime time = DateTime.now();
+  String year = time.year.toString();
+  String month = time.month.toString();
+  if (month.length < 2) {
+    month = '0' + month;
+  }
+  String day = time.day.toString();
+  if (day.length < 2) {
+    day = '0' + day;
+  }
+  String hour = time.hour.toString();
+  if (hour.length < 2) {
+    hour = "0" + hour;
+  }
+  String minute = time.minute.toString();
+  if (minute.length < 2) {
+    minute = '0' + minute;
+  }
+  String second = time.second.toString();
+  if (second.length < 2) {
+    second = '0' + second;
+  }
+  return "$year-$month-$day:$hour:$minute:$second";
 }

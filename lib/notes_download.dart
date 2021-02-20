@@ -3,7 +3,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_full_pdf_viewer/flutter_full_pdf_viewer.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 import 'circularprogress1.dart';
 import 'custom_slider_thumb_circle.dart';
 import 'notes_page.dart';
@@ -206,7 +206,7 @@ class _NoteDownloadState extends State<NoteDownload> {
   Future _getModules() async {
     QuerySnapshot data;
     _modules = [];
-    print('called...');
+    // print('called...');
     if (widget.sem == "S1" || widget.sem == "S2") {
       if (widget.scheme == '2019') {
         data = await noteref
@@ -247,7 +247,7 @@ class _NoteDownloadState extends State<NoteDownload> {
         _modules.add(data.data['val'].toString());
       }
 
-      print(_modules.toString() + _modules.length.toString());
+      debugPrint(_modules.toString() + _modules.length.toString());
     } else {
       setState(() {
         _moduleloading = false;
@@ -382,6 +382,7 @@ class _NoteDownloadState extends State<NoteDownload> {
       connectTimeout: 5000,
       // receiveTimeout: 3000,
     );
+    showInSnackBar('File will be saved to ${externaldir.path}');
     Dio dio = Dio(options);
     Response response;
     try {
@@ -402,7 +403,7 @@ class _NoteDownloadState extends State<NoteDownload> {
       });
       _recived = 0;
       _total = 0;
-      showInSnackBar('File saved to ${externaldir.path}');
+
       _openPdfFormLocalStorage("${externaldir.path}/$name", name);
     } else {
       _downloadFailed();

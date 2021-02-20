@@ -368,8 +368,8 @@ class _NoteLectureProceedState extends State<NoteLectureProceed> {
                                       items: <String>[
                                         "CSE",
                                         "CE",
-                                        "EC",
-                                        "EE",
+                                        "ECE",
+                                        "EEE",
                                         "ME",
                                         "IT"
                                       ].map<DropdownMenuItem<String>>(
