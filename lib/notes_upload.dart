@@ -432,7 +432,6 @@ class _UploadNotesScreenState extends State<UploadNotesScreen> {
 
   Future<void> _uploadPdf() async {
     String day = _getCurrentDate();
-
     String identifier =
         '${widget.scheme + widget.branch + widget.sem + widget.sub + _modules[((_modules.length - 1) * _value).toInt()] + day + ' ' + _fileName}';
     setState(() {

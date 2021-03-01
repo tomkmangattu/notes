@@ -57,11 +57,103 @@ class Home extends StatelessWidget {
                         ),
                       ],
                     ),
+                    ResultPrediction(),
                   ],
                 ),
               )
             ],
           ),
+        ),
+      ),
+    );
+  }
+}
+
+class ResultPrediction extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: () => Navigator.pushNamed(context, "Mark Prediction sem selector"),
+      child: Container(
+        padding: EdgeInsets.all(10),
+        margin: EdgeInsets.fromLTRB(20, 10, 20, 20),
+        height: 150,
+        decoration: BoxDecoration(
+          color: Color.fromARGB(255, 44, 42, 43),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Column(
+          children: <Widget>[
+            Expanded(
+              child: Row(
+                children: <Widget>[
+                  Container(
+                    padding: EdgeInsets.all(10),
+                    height: 100,
+                    width: 100,
+                    child: Image(
+                      fit: BoxFit.fill,
+                      image: AssetImage("images/mark_list.png"),
+                    ),
+                  ),
+                  Expanded(
+                      flex: 65,
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: <Widget>[
+                          SizedBox(
+                            height: 10,
+                          ),
+                          Text(
+                            "Result Predicition",
+                            style: headingstyle,
+                            textAlign: TextAlign.center,
+                          ),
+                          SizedBox(
+                            height: 20,
+                          ),
+                          Row(
+                            children: <Widget>[
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: <Widget>[
+                                  Text(
+                                    "Semester",
+                                    style: contentstyle,
+                                  ),
+                                  Text(
+                                    "S4",
+                                    style: TextStyle(fontSize: 16),
+                                    //textAlign: TextAlign.left,
+                                  )
+                                ],
+                              ),
+                              /*Expanded(child: SizedBox()),
+              Column(
+                children: <Widget>[
+                  Text(
+                    "CGPA",
+                    style: contentstyle,
+                  ),
+                  Text(
+                    "10.00",
+                    style: TextStyle(fontSize: 16),
+                  )
+                ],
+              ),*/
+                            ],
+                          )
+                        ],
+                      ))
+                ],
+              ),
+            ),
+            Text(
+              "View Details",
+              style: TextStyle(fontSize: 16),
+              textAlign: TextAlign.center,
+            ),
+          ],
         ),
       ),
     );

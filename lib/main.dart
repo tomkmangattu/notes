@@ -8,6 +8,9 @@ import 'performance_page.dart';
 import 'ResultAnalysis/resultanalysis.dart';
 import 'videolectures_page.dart';
 import 'package:flutter_downloader/flutter_downloader.dart';
+import 'package:ktuhelp/markPredicition/markPredicition.dart';
+import 'package:ktuhelp/markPredicition/mark_selector.dart';
+import 'package:ktuhelp/markPredicition/subject_selector.dart';
 import 'videofirebase.dart';
 
 void main() async {
@@ -35,6 +38,7 @@ class Ktumain extends StatelessWidget {
         "Notes": (context) => NoteLectureProceed(),
         "performance": (context) => PerformanceHomePage(),
         "Result Analysis": (context) => ResultAnsalysisHomePage(),
+        "Mark Prediction sem selector": (context) => SemSchemeBranch(),
         "Video Lectures": (context) => VideoLectureProceed(),
       },
     );
