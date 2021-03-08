@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ktuhelp/attendence/pages/AttendanceHomePage.dart';
 import 'package:ktuhelp/loginpage.dart';
+import 'package:ktuhelp/markPredicition/selectedData.dart';
+import 'package:provider/provider.dart';
 import 'gpa_page.dart';
 import 'notes_page.dart';
 import 'performance_page.dart';
@@ -25,22 +27,29 @@ class Ktumain extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData.dark().copyWith(
-        primaryColor: Color(0xFF0A0E21),
-        scaffoldBackgroundColor: Color.fromRGBO(34, 34, 34, 10),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider.value(value: Counter()),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData.dark().copyWith(
+          primaryColor: Color(0xFF0A0E21),
+          scaffoldBackgroundColor: Color.fromRGBO(34, 34, 34, 10),
+        ),
+        home: Login(),
+        routes: {
+          "attendance": (context) => AttendanceHome(),
+          "SGPA/CGPA": (context) => GPAHomePage(),
+          "Notes": (context) => NoteLectureProceed(),
+          "performance": (context) => PerformanceHomePage(),
+          "Result Analysis": (context) => ResultAnsalysisHomePage(),
+          "Mark Prediction sem selector": (context) => SemSchemeBranch(),
+          "Video Lectures": (context) => VideoLectureProceed(),
+          // "Mark Selector": (context) => MarkSelector(),
+          "Subject Selector": (context) => SubjectSelector(),
+        },
       ),
-      home: Login(),
-      routes: {
-        "attendance": (context) => AttendanceHome(),
-        "SGPA/CGPA": (context) => GPAHomePage(),
-        "Notes": (context) => NoteLectureProceed(),
-        "performance": (context) => PerformanceHomePage(),
-        "Result Analysis": (context) => ResultAnsalysisHomePage(),
-        "Mark Prediction sem selector": (context) => SemSchemeBranch(),
-        "Video Lectures": (context) => VideoLectureProceed(),
-      },
     );
   }
 }

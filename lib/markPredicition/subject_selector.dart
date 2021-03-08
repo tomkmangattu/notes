@@ -1,251 +1,90 @@
 import 'package:flutter/material.dart';
+import 'package:ktuhelp/circularprogress1.dart';
 import 'package:ktuhelp/extras/ktutext.dart';
 import 'package:flutter_multiselect/flutter_multiselect.dart';
 import 'package:ktuhelp/markPredicition/markPredicition.dart';
+import 'package:ktuhelp/markPredicition/mark_selector.dart';
 import 'package:ktuhelp/markPredicition/selectedData.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ktuhelp/markPredicition/syllabus_list_widget.dart';
+import 'package:provider/provider.dart';
+import 'selectedData.dart';
 
 class SubjectSelector extends StatefulWidget {
+  final String scheme;
+  final String sem;
+  final String branch;
+  SubjectSelector({this.scheme, this.sem, this.branch});
   @override
   _SubjectSelectorState createState() => _SubjectSelectorState();
 }
 
-final _firestore = Firestore.instance;
-// Dialog leadDialog = Dialog(
-//   child: SingleChildScrollView(
-//     child: Padding(
-//       padding: const EdgeInsets.all(10.0),
-//       child: Column(
-//         mainAxisSize: MainAxisSize.min,
-//         children: <Widget>[
-//           Row(
-//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//             children: <Widget>[
-//               Text(
-//                   '$currentModule TOPIC',
-//                   style: TextStyle(
-//                       color: Colors.white,
-//                       fontWeight: FontWeight.w800,
-//                       fontSize: 20)
-//               ),
-//               Text(
-//                   'MARKS',
-//                   style: TextStyle(
-//                       color: Colors.white,
-//                       fontWeight: FontWeight.w800,
-//                       fontSize: 20)
-//               ),
-//
-//             ],
-//           ),
-//           SizedBox(height: 20,),
-//           StreamBuilder<QuerySnapshot>(
-//             stream: _firestore.collection("syllabus").doc("$schemeValue1").collection("$branchValue1").doc("$semValue1").collection("$semValue1").doc("$currentSub").collection("$currentModule").snapshots(),
-//             builder: (context,snapshot){
-//               if(snapshot.data == null) return CircularProgressIndicator();
-//               if(snapshot.hasData){
-//                 final stokes = snapshot.data.docs;
-//                 List<Widget>syllabusWidgets = [];
-//                 for(var stock in stokes){
-//                   final topic = stock.data()['topic'];
-//                   final marks = stock.data()['marks'];
-//                   final syllabusWidget = StockList(name: topic,mark: marks,);
-//                   syllabusWidgets.add(syllabusWidget);
-//                 }
-//                 return Column(
-//                     children: syllabusWidgets
-//                 );
-//               }
-//             },
-//           ),
-//         ],
-//       ),
-//     ),
-//   ),
-// );
-// void _showDialog(BuildContext context) {
-//   // flutter defined function
-//   showDialog(
-//     context: context,
-//     builder: (context) {
-//       // return object of type Dialog
-//       return AlertDialog(
-//         title: Text('Completed Sections'),
-//         contentPadding: EdgeInsets.only(top: 12.0),
-//         content: SingleChildScrollView(
-//           child: Padding(
-//             padding: const EdgeInsets.all(10.0),
-//             child: Column(
-//               mainAxisSize: MainAxisSize.min,
-//               children: <Widget>[
-//                 Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                   children: <Widget>[
-//                     Text(
-//                         '$currentModule TOPICS',
-//                         style: TextStyle(
-//                             color: Colors.white,
-//                             fontWeight: FontWeight.w800,
-//                             fontSize: 20)
-//                     ),
-//                     Text(
-//                         'MARKS',
-//                         style: TextStyle(
-//                             color: Colors.white,
-//                             fontWeight: FontWeight.w800,
-//                             fontSize: 20)
-//                     ),
-//
-//                   ],
-//                 ),
-//                 SizedBox(height: 20,),
-//                 StreamBuilder<QuerySnapshot>(
-//                   stream: _firestore.collection("syllabus").doc("$schemeValue1").collection("$branchValue1").doc("$semValue1").collection("$semValue1").doc("$currentSub").collection("$currentModule").snapshots(),
-//                   builder: (context,snapshot){
-//                     if(snapshot.data == null) return CircularProgressIndicator();
-//                     if(snapshot.hasData){
-//                       final stokes = snapshot.data.docs;
-//                       List<Widget>syllabusWidgets = [];
-//                       for(var stock in stokes){
-//                         final topic = stock.data()['topic'];
-//                         final marks = stock.data()['marks'];
-//                         final syllabusWidget = StockList(name: topic,mark: marks,);
-//                         syllabusWidgets.add(syllabusWidget);
-//                       }
-//                       return Column(
-//                           children: syllabusWidgets
-//                       );
-//                     }
-//                   },
-//                 ),
-//               ],
-//             ),
-//           ),
-//         ),
-//         actions: <Widget>[
-//           FlatButton(
-//             child: Text('CANCEL'),
-//             onPressed:() {},
-//           ),
-//           FlatButton(
-//             child: Text('OK'),
-//             onPressed:(){},
-//           )
-//         ],
-//       );
-//     },
-//   );
-// }
-
-// class MultiSelectDialogItem<V> {
-//   const MultiSelectDialogItem(this.value, this.label);
-//
-//   final V value;
-//   final String label;
-// }
-//
-// class MultiSelectDialog<V> extends StatefulWidget {
-//   MultiSelectDialog({Key key, this.items, this.initialSelectedValues}) : super(key: key);
-//
-//   final List<MultiSelectDialogItem<V>> items;
-//   final Set<V> initialSelectedValues;
-//
-//   @override
-//   State<StatefulWidget> createState() => _MultiSelectDialogState<V>();
-// }
-//
-// class _MultiSelectDialogState<V> extends State<MultiSelectDialog<V>> {
-//   final _selectedValues = Set<V>();
-//
-//   void initState() {
-//     super.initState();
-//     if (widget.initialSelectedValues != null) {
-//       _selectedValues.addAll(widget.initialSelectedValues);
-//     }
-//   }
-//
-//   void _onItemCheckedChange(V itemValue, bool checked) {
-//     setState(() {
-//       if (checked) {
-//         _selectedValues.add(itemValue);
-//       } else {
-//         _selectedValues.remove(itemValue);
-//       }
-//     });
-//   }
-//
-//   void _onCancelTap() {
-//     Navigator.pop(context);
-//   }
-//
-//   void _onSubmitTap() {
-//     Navigator.pop(context, _selectedValues);
-//   }
-
-// Widget _buildItem(MultiSelectDialogItem<V> item) {
-//   final checked = _selectedValues.contains(item.value);
-//   return CheckboxListTile(
-//     value: checked,
-//     title: Text(item.label),
-//     controlAffinity: ListTileControlAffinity.leading,
-//     onChanged: (checked) => _onItemCheckedChange(item.value, checked),
-//   );
-// }
-
-// List <MultiSelectDialogItem<int>> multiItem = List();
-//
-// final valuestopopulate = {
-//   1 : "Sustainable development",
-//   2 : "Livelihood security",
-//   3 : "Challenges for sustainability",
-//   4 : "Clean Development Mechanism(CDM)",
-//   5 : "Social-environmental-economical sustainability",
-//   6 : "solar energy",
-//   7 : "wind energy",
-//   8 : "hydro electric power",
-//   9 : "wave power",
-//   10 : "tidal power ",
-// };
-
-// void populateMultiselect(){
-//   for(int v in valuestopopulate.keys){
-//     multiItem.add(MultiSelectDialogItem(v, valuestopopulate[v]));
-//   }
-// }
-//
-//
-// void _showMultiSelect(BuildContext context) async {
-//   multiItem = [];
-//   populateMultiselect();
-//   final items = multiItem;
-//
-//
-//   final selectedValues = await showDialog<Set<int>>(
-//     context: context,
-//     builder: (BuildContext context) {
-//       return MultiSelectDialog(
-//         items: items,
-//         // initialSelectedValues: [0,-1].toSet(),
-//       );
-//     },
-//   );
-//
-//   print(selectedValues);
-//   getvaluefromkey(selectedValues);
-// }
-//
-// void getvaluefromkey(Set selection){
-//   if(selection != null){
-//     for(int x in selection.toList()){
-//       print(valuestopopulate[x]);
-//     }
-//   }
-// }
-//
-//
+final markReference = Firestore.instance.collection('syllabus');
+String dropDownValue;
+CollectionReference subjectReference;
 
 class _SubjectSelectorState extends State<SubjectSelector> {
+  @override
+  void initState() {
+    _getSubjects();
+    _resetAllMarks();
+    super.initState();
+  }
+
+  void _resetAllMarks() {
+    Provider.of<Counter>(context, listen: false).resetAllMarks();
+  }
+
+  bool _modulesLoading = true;
+  List<String> _subjectList = [];
+
+  void _getSubjects() async {
+    QuerySnapshot subjectSnapshot;
+    if (widget.sem == 'S1' || widget.sem == 'S2') {
+      subjectReference = Firestore.instance
+          .collection('syllabus')
+          .document(widget.scheme)
+          .collection(widget.scheme)
+          .document(widget.sem)
+          .collection(widget.sem);
+      // subjectSnapshot = await markReference
+      //     .document(widget.scheme)
+      //     .collection(widget.scheme)
+      //     .document(widget.sem)
+      //     .collection(widget.sem)
+      //     .getDocuments();
+    } else {
+      subjectReference = Firestore.instance
+          .collection('syllabus')
+          .document(widget.scheme)
+          .collection(widget.scheme)
+          .document(widget.sem)
+          .collection(widget.sem)
+          .document(widget.branch)
+          .collection(widget.branch);
+      // subjectSnapshot = await markReference
+      //     .document(widget.scheme)
+      //     .collection(widget.scheme)
+      //     .document(widget.sem)
+      //     .collection(widget.sem)
+      //     .document(widget.branch)
+      //     .collection(widget.branch)
+      //     .getDocuments();
+    }
+    subjectSnapshot = await subjectReference.getDocuments();
+    for (var docs in subjectSnapshot.documents) {
+      if (docs.documentID != null) {
+        // debugPrint(docs.documentID.toString());
+        _subjectList.add(docs.documentID.toString());
+      }
+    }
+    debugPrint(_subjectList.toString());
+    setState(() {
+      _modulesLoading = false;
+    });
+    dropDownValue = _subjectList[0];
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -275,27 +114,27 @@ class _SubjectSelectorState extends State<SubjectSelector> {
                       children: [
                         ModuleBox(
                           moduleName: "MODULE1",
-                          marks: MODULE1marks,
+                          moduleno: 0,
                         ),
                         ModuleBox(
                           moduleName: "MODULE2",
-                          marks: MODULE2marks,
+                          moduleno: 1,
                         ),
                         ModuleBox(
                           moduleName: "MODULE3",
-                          marks: MODULE3marks,
+                          moduleno: 2,
                         ),
                         ModuleBox(
                           moduleName: "MODULE4",
-                          marks: MODULE4marks,
+                          moduleno: 3,
                         ),
                         ModuleBox(
                           moduleName: "MODULE5",
-                          marks: MODULE5marks,
+                          moduleno: 4,
                         ),
                         ModuleBox(
                           moduleName: "MODULE6",
-                          marks: MODULE6marks,
+                          moduleno: 5,
                         ),
                       ],
                     ),
@@ -306,36 +145,7 @@ class _SubjectSelectorState extends State<SubjectSelector> {
                 // ),
               ],
             ),
-            BottomButton(
-                onTap: () {
-                  setState(() {
-                    showDialog(
-                        context: context,
-                        builder: (_) => AlertDialog(
-                              title: Text(
-                                'Congratulations',
-                                style: TextStyle(
-                                  fontWeight: FontWeight.w800,
-                                ),
-                                textAlign: TextAlign.center,
-                              ),
-                              content: Text(
-                                  'Your Predicted marks is ' +
-                                      (int.parse(MODULE1marks) +
-                                              int.parse(MODULE2marks) +
-                                              int.parse(MODULE3marks) +
-                                              int.parse(MODULE4marks) +
-                                              int.parse(MODULE5marks) +
-                                              int.parse(MODULE6marks))
-                                          .toString(),
-                                  style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.w700),
-                                  textAlign: TextAlign.center),
-                            ));
-                  });
-                },
-                buttonTitle: 'CALCULATE')
+            BottomButton()
           ],
         ),
       )),
@@ -345,75 +155,96 @@ class _SubjectSelectorState extends State<SubjectSelector> {
   Padding subjectselector() {
     return Padding(
       padding: const EdgeInsets.fromLTRB(5, 20, 10, 5),
-      child: Container(
-        padding: EdgeInsets.symmetric(horizontal: 20),
-        width: double.infinity,
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10),
-            border: Border.all(),
-            color: Colors.white),
-        child: DropdownButtonHideUnderline(
-          child: DropdownButton(
-            value: dropdownvalue,
-            icon: Icon(
-              Icons.arrow_drop_down,
-              color: Colors.black54,
+      child: _modulesLoading
+          ? circularProgress()
+          : Container(
+              padding: EdgeInsets.symmetric(horizontal: 20),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  border: Border.all(),
+                  color: Colors.white),
+              child: DropdownButtonHideUnderline(
+                child: DropdownButton(
+                  value: dropDownValue,
+                  icon: Icon(
+                    Icons.arrow_drop_down,
+                    color: Colors.black54,
+                  ),
+                  iconSize: 24,
+                  elevation: 16,
+                  focusColor: Colors.white,
+                  dropdownColor: Colors.white,
+                  style: TextStyle(color: Colors.black54, fontSize: 20),
+                  onChanged: (String newValue) {
+                    setState(() {
+                      dropDownValue = newValue;
+                      // currentSub = dropdownvalue;
+                    });
+                    _resetAllMarks();
+                  },
+                  items: _subjectList
+                      .map<DropdownMenuItem<String>>((String value) {
+                    return DropdownMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList(),
+                ),
+              ),
             ),
-            iconSize: 24,
-            elevation: 16,
-            focusColor: Colors.white,
-            dropdownColor: Colors.white,
-            style: TextStyle(color: Colors.black54, fontSize: 20),
-            onChanged: (String newValue) {
-              setState(() {
-                MODULE1marks = '0';
-                MODULE2marks = '0';
-                MODULE3marks = '0';
-                MODULE4marks = '0';
-                MODULE5marks = '0';
-                MODULE6marks = '0';
-
-                dropdownvalue = newValue;
-                currentSub = dropdownvalue;
-              });
-            },
-            items: subjectList.map<DropdownMenuItem<String>>((String value) {
-              return DropdownMenuItem<String>(
-                value: value,
-                child: Text(value),
-              );
-            }).toList(),
-          ),
-        ),
-      ),
     );
   }
 }
 
 class ModuleBox extends StatefulWidget {
-  ModuleBox({@required this.moduleName, @required this.marks});
+  ModuleBox({@required this.moduleName, @required this.moduleno});
   final String moduleName;
-  final String marks;
+  final int moduleno;
 
   @override
   _ModuleBoxState createState() => _ModuleBoxState();
 }
 
 class _ModuleBoxState extends State<ModuleBox> {
+  // void _incrementCounter(BuildContext context, int module, int mark) {
+  //   Provider.of<Counter>(context, listen: false)
+  //       .increamentCounter(module, mark);
+  // }
+
+  void resetModuleMark(int moduleNo) {
+    // debugPrint(moduleNo.toString());
+    Provider.of<Counter>(context, listen: false).resetMarks(moduleNo);
+  }
+
   @override
   Widget build(BuildContext context) {
+    var _count = Provider.of<Counter>(context).getmarks(widget.moduleno);
     return Padding(
       padding: const EdgeInsets.only(top: 10, bottom: 10, left: 20, right: 20),
       child: GestureDetector(
         onTap: () {
+          // _incrementCounter(context, widget.moduleno, 2);
+          // setState(() {
+          //   // currentModule = widget.moduleName;
+          //   // print(widget.moduleName);
+          //   // totalMark = 0;
+          //   // controllerVisibility = true;
+          // });
           setState(() {
-            currentModule = widget.moduleName;
-            print(widget.moduleName);
-            totalMark = 0;
-            controllerVisibility = true;
-
-            Navigator.pushNamed(context, "Mark Selector");
+            resetModuleMark(widget.moduleno);
           });
+
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => MarkSelector(
+                moduleNo: widget.moduleno,
+                subjectName: dropDownValue,
+                subjectRef: subjectReference,
+              ),
+            ),
+          );
         },
         child: Container(
           decoration: BoxDecoration(
@@ -448,7 +279,7 @@ class _ModuleBoxState extends State<ModuleBox> {
                           height: 5,
                         ),
                         Text(
-                          widget.marks,
+                          _count.toString(),
                           style: TextStyle(
                               fontSize: 20,
                               color: Colors.black54,
@@ -475,19 +306,14 @@ class _ModuleBoxState extends State<ModuleBox> {
 }
 
 class BottomButton extends StatelessWidget {
-  BottomButton({@required this.onTap, @required this.buttonTitle});
-
-  final Function onTap;
-  final String buttonTitle;
-
   @override
   Widget build(BuildContext context) {
+    int _sum = Provider.of<Counter>(context).getsum();
     return GestureDetector(
-      onTap: onTap,
       child: Container(
         child: Center(
             child: Text(
-          buttonTitle,
+          'CALCULATE',
           style: TextStyle(
               fontSize: 18,
               fontWeight: FontWeight.w600,
@@ -499,6 +325,23 @@ class BottomButton extends StatelessWidget {
         width: double.infinity,
         height: MediaQuery.of(context).size.height * 0.1,
       ),
+      onTap: () {
+        showDialog(
+          context: context,
+          builder: (_) => AlertDialog(
+            title: Text(
+              'Congratulations',
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+              ),
+              textAlign: TextAlign.center,
+            ),
+            content: Text('Your Predicted marks is $_sum',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.w700),
+                textAlign: TextAlign.center),
+          ),
+        );
+      },
     );
   }
 }

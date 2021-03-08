@@ -1,21 +1,33 @@
 import 'package:flutter/material.dart';
-// import 'markPredicition.dart';
-String semValue1;
-String branchValue1;
-String schemeValue1;
-List<String> subjectList =[];
-var currentSub;
-var currentModule;
-var totalMark;
-bool controllerVisibility = true;
-String dropdownvalue = subjectList[0];
-String MODULE1marks = '0';
-String MODULE2marks = '0';
-String MODULE3marks = '0';
-String MODULE4marks = '0';
-String MODULE5marks = '0';
-String MODULE6marks = '0';
 
+class Counter extends ChangeNotifier {
+  List<int> _markofmodules = [0, 0, 0, 0, 0, 0];
 
-// map.forEach((k, v) => list.add(Customer(k, v)));
-// print(list);
+  void increamentCounter(int module, int mark) {
+    _markofmodules[module] += mark;
+    notifyListeners();
+  }
+
+  int getmarks(int module) {
+    return _markofmodules[module];
+  }
+
+  void resetMarks(int module) {
+    _markofmodules[module] = 0;
+    // debugPrint(_markofmodules.toString());
+  }
+
+  void resetAllMarks() {
+    for (int i = 0; i < 6; i++) {
+      _markofmodules[i] = 0;
+    }
+  }
+
+  int getsum() {
+    int sum = 0;
+    for (int i = 0; i < 6; i++) {
+      sum += _markofmodules[i];
+    }
+    return sum;
+  }
+}

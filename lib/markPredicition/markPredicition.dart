@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'subject_selector.dart';
-import 'selectedData.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
 
 const headingstyle = TextStyle(
   fontSize: 20,
@@ -57,7 +55,7 @@ class _SemSchemeBranch extends State<SemSchemeBranch> {
 
   bool checksem = false;
   onChangeSemester() {
-    if (branchValue == "S1" || branchValue == "S2") {
+    if (semValue == "S1" || semValue == "S2") {
       setState(() {
         checksem = false;
       });
@@ -132,16 +130,6 @@ class _SemSchemeBranch extends State<SemSchemeBranch> {
                               style: TextStyle(
                                   color: Colors.white54, fontSize: 22),
                             ),
-                            // Container(
-                            //     // color: Colors.white54,
-                            //     // margin:
-                            //     //     EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-                            //     decoration: ShapeDecoration(
-                            //       shape: RoundedRectangleBorder(
-                            //         borderRadius:
-                            //             BorderRadius.all(Radius.circular(22.0)),
-                            //       ),
-                            //     ),
                             Container(
                                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                                 decoration: ShapeDecoration(
@@ -194,16 +182,6 @@ class _SemSchemeBranch extends State<SemSchemeBranch> {
                               style: TextStyle(
                                   color: Colors.white54, fontSize: 22),
                             ),
-                            // Container(
-                            //     // color: Colors.white54,
-                            //     // margin:
-                            //     //     EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-                            //     decoration: ShapeDecoration(
-                            //       shape: RoundedRectangleBorder(
-                            //         borderRadius:
-                            //             BorderRadius.all(Radius.circular(22.0)),
-                            //       ),
-                            //     ),
                             Container(
                                 padding: EdgeInsets.fromLTRB(20, 0, 20, 0),
                                 decoration: ShapeDecoration(
@@ -257,7 +235,7 @@ class _SemSchemeBranch extends State<SemSchemeBranch> {
                                 )))
                           ],
                         ),
-                        checksem == true
+                        checksem
                             ? Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceAround,
@@ -267,16 +245,6 @@ class _SemSchemeBranch extends State<SemSchemeBranch> {
                                     style: TextStyle(
                                         color: Colors.white54, fontSize: 22),
                                   ),
-                                  // Container(
-                                  //     // color: Colors.white54,
-                                  //     // margin:
-                                  //     //     EdgeInsets.only(top: 10.0, right: 10.0, left: 10.0),
-                                  //     decoration: ShapeDecoration(
-                                  //       shape: RoundedRectangleBorder(
-                                  //         borderRadius:
-                                  //             BorderRadius.all(Radius.circular(22.0)),
-                                  //       ),
-                                  //     ),
                                   Container(
                                       padding:
                                           EdgeInsets.fromLTRB(20, 0, 20, 0),
@@ -336,39 +304,21 @@ class _SemSchemeBranch extends State<SemSchemeBranch> {
                     child: Center(
                       child: GestureDetector(
                         onTap: () async {
-                          // DocumentSnapshot querySnapshot =await FirebaseFirestore.instance.collection("syllabus").doc("$schemeValue").collection("$branchValue").doc("$semValue").get();
+                          // branchValue1 = branchValue;
+                          // semValue1 = semValue;
+                          // schemeValue1 = schemeValue;
 
-                          // DocumentReference documentReferance =FirebaseFirestore.instance.collection("syllabus").doc("$schemeValue").collection("$branchValue").doc("$semValue");
-                          try {
-                            final QuerySnapshot result = await Firestore
-                                .instance
-                                .collection("syllabus")
-                                .document("$schemeValue")
-                                .collection("$branchValue")
-                                .document("$semValue")
-                                .collection("$semValue")
-                                .getDocuments();
-                            final List<DocumentSnapshot> documents =
-                                result.documents;
-                            subjectList = [];
-                            documents.forEach(
-                                (data) => {subjectList.add(data.documentID)});
-                            print(subjectList);
-                          } catch (e) {
-                            print('failed');
-                          }
+                          debugPrint(branchValue + semValue + schemeValue);
 
-                          branchValue1 = branchValue;
-                          semValue1 = semValue;
-                          schemeValue1 = schemeValue;
-
-                          print(branchValue);
-                          print(semValue);
-                          print(schemeValue);
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                                builder: (context) => SubjectSelector()),
+                              builder: (context) => SubjectSelector(
+                                scheme: schemeValue,
+                                branch: branchValue,
+                                sem: semValue,
+                              ),
+                            ),
                           );
                         },
                         child: Container(
