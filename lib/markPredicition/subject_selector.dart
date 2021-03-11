@@ -45,8 +45,8 @@ class _SubjectSelectorState extends State<SubjectSelector> {
           .collection('syllabus')
           .document(widget.scheme)
           .collection(widget.scheme)
-          .document(widget.sem)
-          .collection(widget.sem);
+          .document('S1')
+          .collection('S1');
       // subjectSnapshot = await markReference
       //     .document(widget.scheme)
       //     .collection(widget.scheme)
